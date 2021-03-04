@@ -1,0 +1,13 @@
+diff --git a/es-core/src/renderers/Renderer.cpp b/es-core/src/renderers/Renderer.cpp
+index ec33bb71..1278d5c3 100644
+--- a/es-core/src/renderers/Renderer.cpp
++++ b/es-core/src/renderers/Renderer.cpp
+@@ -332,7 +332,7 @@ namespace Renderer
+ 
+ 	bool        isSmallScreen()    
+ 	{ 		
+-		return screenWidth < 400 || screenHeight < 400; 
++		return screenWidth < 500 || screenHeight < 500; 
+ 	};
+ 
+ 	bool isClippingEnabled() { return !clipStack.empty(); }

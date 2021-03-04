@@ -1,0 +1,372 @@
+EmuELEC CHANGELOG
+==================
+
+3.6
+	
+	* Fixed AdvanceMame gamepad auto-configuration, a new option to enable/disable this has been set in the Main Menu - EmuELEC Settings.
+    * Removed steam controller support, I don't think anyone was using it and it was just eating resources, if many people ask for it I will enable it again.
+    * Added small youtube search engine (needs a keyboard) for now its included in the Setup menu script #14.
+    * Mplayer: Added support for .twi and .ytb files, if you include a file with a twitch or youtube address it will be played by mplayer (needs internet).
+    * Added Skip Song to ES, using the left thumb button (l3) you can skip the current song.
+    * Added a small (VERY BETA) way to view videos directly from ES, drop your .mp4, .mkv, mpg, .mov videos to /storage/roms/mplayer and they will appear in ES, it still needs theming, so they will show up withouth an image/icon.
+    * Fixed splash screen on 720p resolution or below.
+    * Enabled CEC support and Remote support for devices that support it.
+    * ES now has some new options to play with including hiding extensions per platform, so if you have .bin/.cue files you can hide one of them and now have no doubles, its available on the "select" menu from a gamelist, under "view customisation" (which has a typo, but thats besides the point).
+    * Flycast is now working again, plus added PSP to the no rewind list so it should work even with no rewind enabled globally (it didn't before). 
+    * Most emulators have been updated to the latest git.
+	* OdroidGoAdvance: Use upstream PPSSPPSDL instead of PPSSPPSDL-GO, there might be gamepad issues.
+	* OdroidGoAdvance: Add support for V1.1 with extra buttons and WiFi module, buttons might have changed a bit, taking suggestions on how to best set them up!.
+	* OdroidGoAdvance: Besides all the changes mentioned above a sleep mode added by @KiwiHop (many thanks!).
+	* OdroidGoAdvance: Fixed a bug that would trigger a black screen on the OGA 10 min after waking up the device.
+	* OdroidGoAdvance: Switched global HOTKEY to F5.
+	* Synched with CoreELEC 9.2.3.
+	* Small script cleanups, other bug fixes and few other tweaks I am forgetting probably.	
+	 
+	EmuELEC will now force copy es_systems.cfg because when changes were made upstream to es_systems.cfg the update did not copy the new file, this version fixes that.
+	WARNING: This will REPLACE the es_systems.cfg file, if you manually changed this file those changes will need to be redone, sorry can't seem to find a better way yet.
+
+
+3.5
+
+* Fixed FPS on Emulationstation would drop after returning from a game (Amlogic-ng)
+* Add ee_alsa.always option emuelec.cong use to dissable pulseaudio, this might fix some issues when returning from a game, you will loose mixing sounds in ES
+* Moved splash screens to /storage/roms/splash and also load splash per platform
+* Backup will now backup more settings (like VVVVVVV,PPSSPP configs)
+* Remove avahi requirement for pulseaudio in hopes that it will fix a rare bug
+* Added many Wifi/Bt chips to Amlogic-ng project (Thanks to CE!)
+* Added images and descriptions (only in ENG) for the setup scripts!
+* Removed ev-tools as they were not being used, use regular evtest
+* Updated emulators and cores to current GIT versions.
+* Danger zone "reset system to default config" will now leave ROMS folders in place
+* Introduce maxperf option (enabled by default) useful for OdroidGoAdvance and S912
+* Removed core updater from retroarch to keep people from screwing up their installation
+* Probably other changes I forgot to mention
+
+New device supported! OdroidGoAdvance
+
+This is the first official release for the OGA, although there are still many know issues, bugs and changes needed I felt it is at a place where I could release
+the first official version. 
+
+NOTE: I still expect MANY issues with the OGA release, please bear with me while I keep investigating on known issues and try to fix them 
+
+3.4
+
+This is a bug fix release that also adds a few features
+
+* Added VVVVVV and 2048 to ports
+* Reworked how bezels are used, they should now go into /storage/roms/bezels
+* Fix Muppen64plus-nx on S905/S912
+* Fix rare bug where ES would hang after returning from retroarch
+* Reworked the "Danger Zone" options
+* Use ffplay for intro video and splashes, this also enables gif splashes to be used (not yet configurable, s912 still has a few problems)
+* Include extra WiFi drivers for Amlogic-ng 
+* Bump Amiberry to 3.10
+* Fix NeoCD not working with CHD
+* Fix Scummvm libretro not loading games after scanning
+* Make HatariSA use the same bios path as libretro /storage/roms/bios/tos.img
+* Bumped a few libretro cores and emulators
+* Other small bugfixes
+
+
+Please remember, EmuELEC is COMPLETELY FREE! it is not to be sold or included in ANY commercial products, if you have paid for EmuELEC or an image, DEMAND YOUR MONEY BACK!
+
+---------------------------
+3.3
+
+This is just a small bug fix release that also adds S905x3 support
+
+* Added support for the S905x3 chip-sets, keep in mind many functions might still not work for your device (WiFi, Bluetooth, Ethernet, etc)
+* Added script to open a terminal window, needs a Keyboard but you can kill it with Hotkey+start
+* Added script to view last emuelec.log
+* Fixed issue with rom names with single quotes not saving advanced options
+* Fixed manual delay on show-splash script
+* Remove unnecessary extensions for Saturn
+* Sync base with CE
+* Bumped a few emulator/cores to latest git.
+
+---------------------------
+3.2
+
+* Added option to prioritize gamepads (for up tp 5 players) in Emulationstation 
+* Added new script to copy ROMS from USB to internal storage
+* Added newest changes to ES by Fabrice Caruso and the Batocera team, with some minor menu changes
+* Added a new option to emuelec.conf "global.retroarch.menu_driver" to select the Retroarch menu driver from ozonoe (default), rgui and xmb
+* Added Fakelottes, scanline and sharp shaders
+* Added option to select RA menu driver in emuelec.conf
+* Added option to set a delay to wait for slow external drives in emuelec.conf
+* Added ports: Cannonball, Xrick (Rick Dangerous), Commander-Genius (Commander Keen), Doom, Doom2, Quake, Mr.Boom, REminiscence (FLASHBACK), Cave Story, Dinothawr. Thanks to KEgg
+  Roms for each port should go into the /storage/roms/ports/[game]
+* Added Steam Controller support (ONLY WITH DONGLE NO BT!)
+* Added Stella stand alone
+* Added PSPminis in Es menu
+* Added support for PNG and MP4 splash screens
+* Added a simple backup option to EmuELEC settings under danger zone
+* Removed sixais as it seems its not needed for PS3/PS4 gamepads
+* Reverted back to GIT e723594 for PPSSPPSDL and ppsspp_libretro as it seems it has better performance
+* Switch to es-theme-EmuELEC-carbon with changes made by drixplm which now inlclude all system logos supported in EmuELEC!
+* Switch back to Muppenplus64-next git version f77c16f for performance reasons (still not final change, maybe) 
+* Separated configuration files to improve performance, emuoptions.conf now hold all the settings for games and platforms
+* Bumped most libretro cores and emulators to latest version available
+* Fixed a longstanding issue with advancemame and some games displaying only black screen!
+* Fixed a rare issue where the system would hang if you ran Retroarch directly then return to Emulationstation
+* Fixed many wrong and missing extensions in es_systems.cfg 
+* Fixed Advmane not displaying correctly on 720p
+* Fixed lot of other minor bugs 
+
+------------------
+
+3.1
+
+Mostly bug fixes and emulator updates, but there is also a new feature that many have asked for, choosing emulators per game!
+Change emulator per system: On the main menu select "GAME SETTINGS" > "ADVANCED" > [Choose system] > "EMULATOR"
+Change emulator per game: Navigate to the game you want to choose emu for, press select on the gamepad (Game options menu) choose "ADVANCED GAME OPTIONS" > "EMULATOR"
+
+
+------------------
+
+3.0
+
+Huge update!
+
+New look, new logo (by Prizco), and intro video (by ElF0rma) included! 
+
+Emulationstation now has many new options coming from Batocera-emulationstation and adapted for EmuELEC
+
+Notable features include: 
+
+* Game Settings: You can set some setting that are used on Retroarch directly on this menu, can be set (by priority) per game, per system or globally
+* Background music has been upgraded and it now shows the titles, music still goes into /storage/roms/BGM
+* Bluetooth controllers! Easy to pair Bluetooth controllers (still need a keybord or other gamepad first)
+* Wifi has been revamped, you can still use the old method (By script in setup) or use the on-screen-keyboard to connect to WiFi directly from ES!
+* ES Built-in scraper is now working, but Skyscrapper and Selph's scraper are still included
+* Themes and Bezels can now be downloaded directly from ES (in menu: system settings, updates)
+* Multi language support!
+* Many other new features and small changes!
+
+
+Fixes: 
+
+All platforms:
+
+* OpenBOR: Removed gl4es, it now uses less resources to run
+* ResidualVM is now included, put roms in /storage/roms/residualvm, use the included "Scan ResidualVM games" script to populate the list (see note 1)
+* ScummVM now includeds a "Scan ScummVM Games" script to populate the list
+* Fixed Amiberry sound
+* Almost all emulators/cores updated to current versions
+* ComicBook theme has a bug that would play multiple videos at the same time so it has been replaced by es-theme-carbon (Fabrice Carusos's version)
+
+
+S905
+
+* Fixed Reicast sound issue 
+
+
+Many more small bug fixes and changes, check the git history for those.
+
+Note 1: ResidualVM still has a small bug where the pointer in GUI will not show, so you might need a keyboard to run some games, after the game has started you can use the gamepad withouth an issue.
+
+
+
+2.7.1
+
+Mostly small bugfixes
+
+All platforms
+
+* Return to fbterm because fbpad did not work with a keyboard
+* Fix bezels not showing if first argument was "LIBRETRO"
+* Skyscraper fix launch script
+
+S922x/A311D/S905x2
+
+* Fix audio not working on emulators
+
+2.7
+
+All platforms
+
+* Emulationstation - Sound Mix! BG music, video music and theme audio now all sound at the same time (if you want)
+* Switched fbterm for fbpad, much faster, lighter and looks better.
+* Add option in ES to switch video mode
+* Retroarch updated to 1.7.8
+* Add more controllers to advmame
+* Add Scummvm Standalone
+* Most libretro cores bumped to latest git available
+* A default bezel for retroarch cores is now included, disabled by default
+* Added an automatic re-pair for bluetooth gamepads (not tested)
+* Added Libretro Daphne (untested)
+* Bug fixes
+
+S922x/A311D/S905x2
+
+* Amiberry is now working
+
+S905/S912/PK7
+
+* Fix scaling after video mode selection
+
+-------------------------------
+
+
+
+2.6
+
+All platforms
+
+* Update base to CoreELEC 9.2
+* Consolidate all log files to /emuelec/log the samba share "logfiles" now also point to this location
+* Removed less used cores and emulators to reduce space (see removed cores)
+* Fixed parallel-n64 
+* Updated PPSSPP
+* Updated Flycast, performance is much better even on s905
+* DosboxSDL is playable again
+* Advancemame will now auto-configure P1 according to the gamepad that is connected on js0 as long as it has been configured in Emulationstation
+* ES input configuration will automatically set the Keycombo to kill running emulators (HK + START) for the device in js0 (WIP may not work on all gamepads yet)
+* ES will prompt you to configure a new gamepad by pressing any button
+* ES sort emulator options and add SMS selection
+* ES add Hatari emulator choice
+* ES much needed system sort and cleanup
+* Add HATARISA
+* You can now use a global bezel for all platforms and games /storage/overlays/bezels/default.cfg
+* Updated retroarch to latest git
+* Most Libretro cores have been bumped to current versions
+* Minor bug fixes
+* Samba shares have been updated: added Bezels, Splash and pointed logfiles to /emuelec/logs.
+  Important please delete /storage/.config/samba.conf if you can't see the new shares 
+
+S922x/S905x2/A311D
+
+* Add support for generic S922x (GT king)
+* Add support for Khadas VIM3
+* Preliminary support for S905X2 (very alpha, untested)
+* Added Yabasanshiro, 4DO, MESEN and MESEN-S
+* ES add Saturn (Yabasanshiro) to es_systems.cfg
+
+ 
+Removed Cores:
+cannonball
+chailove
+desmume
+desmume-2015
+dinothawr
+higan-sfc
+higan-sfc-balanced
+lutro
+mame2003-midway
+mame2015
+melonds
+mrboom
+mupen64plus (replaced by mupen64plus-next)
+o2em
+pocketcdg
+quicknes
+snes9x2005
+snes9x2010
+virtualjaguar
+xrick
+
+-------------------------------
+
+2.5.4
+
+All platforms
+
+* Fix for manually set bezels 
+* Fix for ROM folders not being created at first boot
+* Amiberry now uses the same gamepad config as Retroarch
+* Emulationstation now waits for mounts to be ready before it starts so fix the issue where external drives would not show any roms 
+* Completely replace Final Burn Alpha with FinalBurn Neo (rom folder is now fbneo)
+* Emulationstation: Add NES and SNES hacks to es_systems.cfg
+* Emulationstation: Change SuperGrafx core
+* Emulationstation: Change Openbor theme from Ports to Openbor
+* Emulationstation: Fix favorites not being saved after restart 
+* Remove Virtual Jaguar from supported platforms (as it was unplayable)
+* Updated Mupen64plus-nx libretro core, it is now faster and uses GLideN64
+* Update Parallel 64 
+* Neocd Libretro updated to newest git, now supports CHD
+* Add many missing platform and collections to es_systems.cfg
+* Minor changes and fixes
+* Bettle-dc is now Flycast
+* New libretro core MBA Mini Plus (included but not yet enabled)
+* Retroarch: let user set if they want shutdown and reboot from RA, useful if you want to use RA as the default launcher.
+* Include extra cores for testing (dinothawr, higan-sfc, higan-sfc-balanced, lutro, mame2003-midway, mrboom, easyrpg, mesen, desmume, desmume-2015, pocketcdg, melonds, virtualjaguar)
+
+Odroid N2
+
+* OC by default freq_a73 "1908" freq_a53 "1992" governor "performance" 
+
+Addon:
+
+* Fixes for Odroid N2
+* Fix for no audio
+* Use Kodi option to set audio-output (HDMI or front)
+
+-------------------------------
+
+2.5.3
+
+All platforms
+
+* New feature "Force Update" that will hopefully solve the update process, updating only the files that need to be updated and leaving the rest intact. (More info on the Wiki)
+* New feature custom_start.sh if you need anything to run at boot place it in this file /storage/.config/custom_start.sh
+* Enable/Disable custom bezels and splash screens from the ES menu.
+* Fix crash when disconnecting gamepad
+* Fix DS4/DS3 motion controls causing problems with ES
+* Fixed bug with some handheld platforms not showing bezels
+* Fixed bug where bezels/splash would show a different game
+* Added getcores_override.sh in case you add a new core and need it to appear as an option in ES.
+* To avoid confusion libretro cores now have Libretro_ in the name when selecting an emulator in Emulationstation
+* Change path to external fonts for ES
+* Bezels will now make a backup copy of retroarch.cfg from when you enabled them, when they are disabled again that backup copy is restored, so make sure you change all of your settings before enabling bezels
+* Replace Libretro Fbalpha with FbalphaFB
+* Added PCengineCD, Saturn, Naomi, Atomiswave and MSX2 to es_systems.cfg
+* Bumped several Libretro cores, PPSSPPSDL, REICASTSA, Retroarch, etc. to the newest version. 
+
+-------------------------------
+
+2.5.2
+
+All platforms
+
+* Fix scripts not displaying correctly
+* Fix PPSSPP render error
+* Added custom_scripts directory, any .sh script that is put in here will automatically appear in "Retropie" menu in ES
+
+S912
+
+* Disabled splash screen after quitting a game, it was causing rendering/resolution issues
+
+-------------------------------
+
+2.5.1
+
+All platforms
+* Fixed DOSBOX Rom path
+* Fix for ES crashing when no es_settings.cfg was found
+* Fixed a bug that prevented the mounting of USB roms if there were multiple "emuelecrom" files
+* Improved logging, use emueleclogs.sh to create a support log file.
+* Improved reicast.sh gamepad search
+* Move ES resources folder to /storage/.emulationstation/resources for easy editing
+* Removed pocketcdg and melonds
+* New platform: Neo-Geo CD. ROMS should go into /storage/roms/neocd and bios into /storage/roms/bios
+* Retroarch has been upgraded to 1.7.7
+* Updated some Libretro Cores
+* Bumped PPSSPPSDL, Skyscraper
+* Bezels & Splash screens are still WIP but they should work if you use your own.
+
+Odroid N2
+* Fix Odroid N2 framebuffer issues with scripts, retroarch and some emus.
+
+S912
+* Fixed Reicast in S912/Pk7
+* Fixed Retropie scripts for S912/Pk7
+
+-------------------------------
+2.5 
+
+Initial EmuELEC release
+
+Sx05RE is now EmuELEC, a pure emulation build that does not include Kodi or anything else related to Kodi in order to free resources and space.
+The main goal of EmuELEC is to be the best and easiest wat to emulate retro games on Amlogic hardware.
+
+However if you still like to have Kodi on the same installation, you can also use the Kodi Add-on version. But keep in mind it will have less features than EmuELEC

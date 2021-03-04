@@ -1,0 +1,22 @@
+diff --git a/advance/linux/target.c b/advance/linux/target.c
+index 62aa5cf0..bcacbbbf 100644
+--- a/advance/linux/target.c
++++ b/advance/linux/target.c
+@@ -1099,7 +1099,7 @@ void target_signal(int signum, void* void_info, void* void_context)
+ 		exit(EXIT_FAILURE);
+ 	} else if (signum == SIGTERM) {
+ 		fprintf(stderr, "Terminated\n\r");
+-		exit(EXIT_FAILURE);
++		exit(0);
+ 	} else if (signum == SIGALRM) {
+ 		fprintf(stderr, "Alarm\n\r");
+ 		exit(EXIT_FAILURE);
+@@ -1271,7 +1271,7 @@ void target_signal(int signum, void* void_info, void* void_context)
+ 			fprintf(stderr, "Are you using the correct binary ?\n");
+ 		}
+ 
+-		_exit(EXIT_FAILURE);
++		_exit(0);
+ 	}
+ }
+ 

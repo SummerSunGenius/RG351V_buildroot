@@ -1,0 +1,79 @@
+diff --git a/deps/libgo2/src/display.c b/deps/libgo2/src/display.c
+index b91cf0624b..c4bef49eca 100644
+--- a/deps/libgo2/src/display.c
++++ b/deps/libgo2/src/display.c
+@@ -1019,7 +1019,7 @@ void go2_presenter_post(go2_presenter_t* presenter, go2_surface_t* surface, int
+     }
+ 
+ 
+-    go2_surface_blit(surface, srcX, srcY, srcWidth, srcHeight, dstSurface, dstX, dstY, dstWidth, dstHeight, rotation, scale_mode);
++    go2_surface_blit(surface, srcX, srcY, srcWidth, srcHeight, dstSurface, dstX, dstY, dstHeight, dstWidth, rotation, scale_mode);
+ 
+ 
+     pthread_mutex_lock(&presenter->queueMutex);
+diff --git a/gfx/drivers/oga_gfx.c b/gfx/drivers/oga_gfx.c
+index 44955adc52..05216da567 100644
+--- a/gfx/drivers/oga_gfx.c
++++ b/gfx/drivers/oga_gfx.c
+@@ -47,8 +47,10 @@
+ 
+ #define ALIGN(val, align)   (((val) + (align) - 1) & ~((align) - 1))
+ 
+-#define NATIVE_WIDTH 480
+-#define NATIVE_HEIGHT 320
++//#define NATIVE_WIDTH 480
++//#define NATIVE_HEIGHT 640
++#define NATIVE_WIDTH 640
++#define NATIVE_HEIGHT 480
+ 
+ #define NUM_PAGES 2
+ 
+@@ -304,9 +306,9 @@ static bool oga_gfx_frame(void *data, const void *frame, unsigned width,
+    dstFrameBuffer = vid->frameBuffer[vid->cur_page];
+    dstSurface     = go2_frame_buffer_surface_get(dstFrameBuffer);
+ 
+-   go2_surface_blit(dst_surface, 0, 0, width, height,
++   go2_surface_blit(dst_surface, 0, 0, height, width,
+          dstSurface, out_y, out_x, out_h, out_w,
+-         !menu_is_alive ? oga_rotation : GO2_ROTATION_DEGREES_270, 2);
++         !menu_is_alive ? oga_rotation : GO2_ROTATION_DEGREES_0, 2);
+ 
+    display = go2_presenter_display_get(vid->presenter);
+    go2_display_present(display, dstFrameBuffer);
+diff --git a/gfx/drivers_context/drm_go2_ctx.c b/gfx/drivers_context/drm_go2_ctx.c
+index 36d0c78644..5efd568f09 100644
+--- a/gfx/drivers_context/drm_go2_ctx.c
++++ b/gfx/drivers_context/drm_go2_ctx.c
+@@ -118,8 +118,10 @@ static void *gfx_ctx_go2_drm_init(void *video_driver)
+    if (!drm)
+       return NULL;
+ 
+-   drm->native_width  = 480;
+-   drm->native_height = 320;
++   //drm->native_width  = 480;
++   //drm->native_height = 640;
++   drm->native_width  = 640;
++   drm->native_height = 480;  
+ 
+    drm->display       = go2_display_create();
+    drm->presenter     = go2_presenter_create(drm->display,
+@@ -311,8 +313,8 @@ static void gfx_ctx_go2_drm_swap_buffers(void *data)
+    if (out_w != src_w || out_h != src_h)
+    {
+        out_w = out_h * video_driver_get_aspect_ratio();
+-       out_w = (out_w > 480) ? 480 : out_w;
+-       out_x = (480 - out_w) / 2;
++       out_w = (out_w > 640) ? 640 : out_w;
++       out_x = (640 - out_w) / 2;
+        if (out_x < 0)
+            out_x = 0;
+     }
+@@ -325,7 +327,7 @@ static void gfx_ctx_go2_drm_swap_buffers(void *data)
+          surface,
+          src_x, src_y, src_w, src_h,
+          out_y, out_x, out_h, out_w,
+-         GO2_ROTATION_DEGREES_270, 2);
++         GO2_ROTATION_DEGREES_0, 2);
+    go2_context_surface_unlock(drm->context, surface);
+ #endif
+ }

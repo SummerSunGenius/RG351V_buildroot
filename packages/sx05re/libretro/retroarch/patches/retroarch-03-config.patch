@@ -1,0 +1,113 @@
+diff --git a/config.def.h b/config.def.h
+index 6de40d6..267a095 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -585,7 +585,7 @@ static const float menu_header_opacity = 1.000;
+ #define DEFAULT_MENU_SHADER_PIPELINE 2
+ #endif
+ 
+-#define DEFAULT_SHOW_ADVANCED_SETTINGS false
++#define DEFAULT_SHOW_ADVANCED_SETTINGS true
+ 
+ #define DEFAULT_RGUI_COLOR_THEME RGUI_THEME_CLASSIC_GREEN
+ 
+diff --git a/configuration.c b/configuration.c
+index f43fcf6..97c3aea 100644
+--- a/configuration.c
++++ b/configuration.c
+@@ -571,14 +571,14 @@ static const enum location_driver_enum LOCATION_DEFAULT_DRIVER = LOCATION_ANDROI
+ static const enum location_driver_enum LOCATION_DEFAULT_DRIVER = LOCATION_NULL;
+ #endif
+ 
+-#if defined(_3DS) && defined(HAVE_RGUI)
++#if 0//defined(_3DS) && defined(HAVE_RGUI)
+ static const enum menu_driver_enum MENU_DEFAULT_DRIVER = MENU_RGUI;
+ #else
+-#if defined(HAVE_MATERIALUI) && defined(RARCH_MOBILE)
++#if 0//defined(HAVE_MATERIALUI) && defined(RARCH_MOBILE)
+ static const enum menu_driver_enum MENU_DEFAULT_DRIVER = MENU_MATERIALUI;
+-#elif defined(HAVE_OZONE)
++#elif 0//defined(HAVE_OZONE)
+ static const enum menu_driver_enum MENU_DEFAULT_DRIVER = MENU_OZONE;
+-#elif defined(HAVE_XMB) && !defined(_XBOX)
++#elif 1//defined(HAVE_XMB) && !defined(_XBOX)
+ static const enum menu_driver_enum MENU_DEFAULT_DRIVER = MENU_XMB;
+ #elif defined(HAVE_RGUI)
+ static const enum menu_driver_enum MENU_DEFAULT_DRIVER = MENU_RGUI;
+@@ -1558,7 +1558,7 @@ static struct config_bool_setting *populate_settings_bool(
+    SETTING_BOOL("menu_navigation_wraparound_enable", &settings->bools.menu_navigation_wraparound_enable, true, true, false);
+    SETTING_BOOL("menu_navigation_browser_filter_supported_extensions_enable",
+          &settings->bools.menu_navigation_browser_filter_supported_extensions_enable, true, true, false);
+-   SETTING_BOOL("menu_show_advanced_settings",  &settings->bools.menu_show_advanced_settings, true, DEFAULT_SHOW_ADVANCED_SETTINGS, false);
++   SETTING_BOOL("menu_show_advanced_settings",  &settings->bools.menu_show_advanced_settings, true, DEFAULT_SHOW_ADVANCED_SETTINGS, true);
+ #ifdef HAVE_MATERIALUI
+    SETTING_BOOL("materialui_icons_enable",       &settings->bools.menu_materialui_icons_enable, true, DEFAULT_MATERIALUI_ICONS_ENABLE, false);
+    SETTING_BOOL("materialui_show_nav_bar",        &settings->bools.menu_materialui_show_nav_bar, true, DEFAULT_MATERIALUI_SHOW_NAV_BAR, false);
+diff --git a/pkg/pandora/retroarch/retroarch.cfg b/pkg/pandora/retroarch/retroarch.cfg
+index b581ae6..08cfc05 100644
+--- a/pkg/pandora/retroarch/retroarch.cfg
++++ b/pkg/pandora/retroarch/retroarch.cfg
+@@ -1,21 +1,21 @@
+ libretro_path = "/mnt/utmp/retroarch/lib/libretro-fceu.so"
+ system_directory = /mnt/utmp/retroarch/
+-video_driver = "sdl"
+-video_fullscreen = false
+-video_smooth = false
++video_driver = "gl"
++video_fullscreen = true
++video_smooth = true
+ video_force_aspect = false
+ video_aspect_ratio_auto = true
+-video_font_path = /usr/share/fonts/truetype/DejaVuSansMono.ttf
+-video_font_size = 10
+-audio_driver = alsa
+-input_player1_a = end
+-input_player1_b = pagedown
+-input_player1_y = home
+-input_player1_x = pageup
+-input_player1_start = alt
+-input_player1_select = ctrl
+-input_player1_l = rshift
+-input_player1_r = rctrl
++video_font_path = /usr/share/retroarch-assets/xmb/monochrome/font.ttf
++video_font_size = 32
++audio_driver = alsathread
++input_player1_a = x
++input_player1_b = z
++input_player1_y = a
++input_player1_x = s
++input_player1_start = enter
++input_player1_select = rshift
++input_player1_l = q
++input_player1_r = w
+ input_player1_left = left
+ input_player1_right = right
+ input_player1_up = up
+@@ -25,10 +25,10 @@ input_player1_r2 = backspace
+ input_player1_l3 = e
+ input_player1_r3 = i
+ 
+-input_player1_l_x_plus_axis = +0
+-input_player1_l_x_minus_axis = -0
+-input_player1_l_y_plus_axis = +1
+-input_player1_l_y_minus_axis = -1
++input_player1_l_x_plus_axis = -0
++input_player1_l_x_minus_axis = +0
++input_player1_l_y_plus_axis = -1
++input_player1_l_y_minus_axis = +1
+ input_player1_r_x_plus_axis = +2
+ input_player1_r_x_minus_axis = -2
+ input_player1_r_y_plus_axis = +3
+diff --git a/retroarch.cfg b/retroarch.cfg
+index bac9093..569f3be 100644
+--- a/retroarch.cfg
++++ b/retroarch.cfg
+@@ -110,7 +110,7 @@
+ # location_driver =
+ 
+ # Menu driver to use. ("rgui", "xmb", "glui")
+-# menu_driver = "rgui"
++# menu_driver = "xmb"
+ 
+ # Record driver. Used when recording video.
+ # record_driver =

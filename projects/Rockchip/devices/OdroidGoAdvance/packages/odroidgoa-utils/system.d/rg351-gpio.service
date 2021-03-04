@@ -1,0 +1,13 @@
+[Unit]
+Description=RG351 gpio
+ConditionPathExists=/storage/.config/emuelec/scripts/rg351_gpio.sh
+Before=emuelec.target
+
+[Service]
+Environment=HOME=/storage
+EnvironmentFile=/storage/.config/emulationstation/scripts/es_env.sh
+ExecStart=/emuelec/scripts/rg351_gpio.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

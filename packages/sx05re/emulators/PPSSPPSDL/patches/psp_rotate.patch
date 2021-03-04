@@ -1,0 +1,13 @@
+diff --git a/SDL/SDLMain.cpp b/SDL/SDLMain.cpp
+index 45b1e7e28..9da4b0334 100644
+--- a/SDL/SDLMain.cpp
++++ b/SDL/SDLMain.cpp
+@@ -867,8 +867,8 @@ int main(int argc, char *argv[]) {
+ 		go2_presenter_post(presenter,
+ 					surface,
+ 					0, 0, 480, 320,
+-					0, 0, 320, 480,
+-					GO2_ROTATION_DEGREES_270);
++					0, 0, 640, 480,
++					GO2_ROTATION_DEGREES_0);
+ 		go2_context_surface_unlock(context, surface);

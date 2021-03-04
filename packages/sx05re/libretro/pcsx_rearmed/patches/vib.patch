@@ -1,0 +1,71 @@
+diff --git a/frontend/libretro.c b/frontend/libretro.c
+index 50392a9..0224b5d 100644
+--- a/frontend/libretro.c
++++ b/frontend/libretro.c
+@@ -98,6 +98,12 @@ static unsigned previous_height = 0;
+ static int plugins_opened;
+ static int is_pal_mode;
+ 
++#define __VIB__
++#ifdef __VIB__
++extern int vib_init;
++#endif
++
++
+ /* memory card data */
+ extern char Mcd1Data[MCD_SIZE];
+ extern char Mcd2Data[MCD_SIZE];
+@@ -491,6 +497,29 @@ void plat_trigger_vibrate(int pad, int low, int high)
+ 
+    if (in_enable_vibration)
+    {
++#ifdef __VIB__
++#if 0
++	if(high <= 0x80){
++	system("echo 15 > /sys/class/gpio/export && echo out > /sys/class/gpio/gpio15/direction && echo 0 >  /sys/class/gpio/gpio15/value && echo 15 > /sys/class/gpio/unexport");
++	}else{
++	system("echo 15 > /sys/class/gpio/export && echo out > /sys/class/gpio/gpio15/direction && echo 1 >  /sys/class/gpio/gpio15/value && echo 15 > /sys/class/gpio/unexport");
++	}
++#else
++	if(vib_init==0)
++	{
++		system("echo 0 > /sys/class/pwm/pwmchip0/export");
++		system("echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/period");
++		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
++		system("echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle");
++		vib_init=1;	
++	}
++	if(high <= 0x80){
++	system("echo 1000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle");
++	}else{
++	system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle");
++	}
++#endif
++#endif
+       rumble_cb(pad, RETRO_RUMBLE_STRONG, high << 8);
+       rumble_cb(pad, RETRO_RUMBLE_WEAK, low ? 0xffff : 0x0);
+    }
+diff --git a/frontend/main.c b/frontend/main.c
+index b1ee4c7..e645ead 100644
+--- a/frontend/main.c
++++ b/frontend/main.c
+@@ -53,7 +53,9 @@ int state_slot;
+ enum sched_action emu_action, emu_action_old;
+ char hud_msg[64];
+ int hud_new_msg;
+-
++#if 1//def __VIB__
++int vib_init = 0;
++#endif
+ static void make_path(char *buf, size_t size, const char *dir, const char *fname)
+ {
+ 	if (fname)
+@@ -705,6 +707,8 @@ static void toggle_fast_forward(int force_off)
+ 
+ static void SignalExit(int sig) {
+ 	// only to restore framebuffer/resolution on some devices
++	//system("echo 15 > /sys/class/gpio/export && echo out > /sys/class/gpio/gpio15/direction && echo 0 >  /sys/class/gpio/gpio15/value && echo 15 > /sys/class/gpio/unexport");
++        system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle");
+ 	plat_finish();
+ 	exit(1);
+ }

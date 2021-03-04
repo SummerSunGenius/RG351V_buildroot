@@ -1,0 +1,44 @@
+diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
+index b462f25c..8398a1d6 100644
+--- a/es-app/src/guis/GuiMenu.cpp
++++ b/es-app/src/guis/GuiMenu.cpp
+@@ -1111,7 +1111,7 @@ void GuiMenu::openUpdatesSettings()
+ 	});
+ 	mWindow->pushGui(updateGui);
+ }
+-
++#define CONFIG_BRIGHTNESS
+ void GuiMenu::openSystemSettings_batocera() 
+ {
+ 	Window *window = mWindow;
+@@ -1217,11 +1217,29 @@ void GuiMenu::openSystemSettings_batocera()
+ 	int brighness;
+ 	if (ApiSystem::getInstance()->getBrighness(brighness))
+ 	{
+-		auto brightnessComponent = std::make_shared<SliderComponent>(mWindow, 5.f, 100.f, 5.f, "%");
++		auto brightnessComponent = std::make_shared<SliderComponent>(mWindow, 10.f, 100.f, 5.f, "%");
++		#ifdef CONFIG_BRIGHTNESS
++		if(brighness<10)
++		{
++			brighness=10;
++		}
++		#endif
+ 		brightnessComponent->setValue(brighness);
+ 		brightnessComponent->setOnValueChanged([](const float &newVal)
+ 		{
++			#ifdef CONFIG_BRIGHTNESS
++			int temp_brightness_level=(int)Math::round(newVal);
++			if(temp_brightness_level<10)
++			{
++				temp_brightness_level=10;
++			}
++			ApiSystem::getInstance()->setBrighness(temp_brightness_level);
++			temp_brightness_level=(temp_brightness_level+1)*255/100;
++			SystemConf::getInstance()->set("brightness.level", std::to_string(temp_brightness_level));
++			SystemConf::getInstance()->saveSystemConf();			
++			#else
+ 			ApiSystem::getInstance()->setBrighness((int)Math::round(newVal));
++			#endif
+ 		});
+ 
+ 		s->addWithLabel(_("BRIGHTNESS"), brightnessComponent);
