@@ -21,11 +21,10 @@ case "$PROJECT" in
   Rockchip)
   if [ "$DEVICE" == "OdroidGoAdvance" ]; then
     # This is specific for the Rk3326 on the Odroid-Go Advance
-    PKG_VERSION="12d112f2ee0c95395de242dcafe3ea3fab3a8712"
-    PKG_GIT_CLONE_BRANCH="RG351P"
+    PKG_VERSION="7c793e2f138ee41eba20358508579768c8299d5a"
     PKG_GIT_CLONE_SINGLE="yes"
     PKG_GIT_CLONE_DEPTH="1"
-    PKG_URL="git@github.com:SummerSunGenius/RG351P_uboot.git"
+    PKG_URL="https://github.com/SummerSunGenius/RG351V_uboot.git"
     PKG_PATCH_DIRS="OdroidGoAdvance"
   else
     PKG_VERSION="8659d08d2b589693d121c1298484e861b7dafc4f"
